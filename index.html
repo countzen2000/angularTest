@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Code Samples</title>
+		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+		<LINK href="css/main.css" rel="stylesheet" type="text/css">
+		<LINK href="css/ng-sortable.css" rel="stylesheet" type="text/css">
+		<LINK href="css/ngDialog.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="css/ngDialog-theme-default.min.css">
+		
+	</head>
+
+	<body>
+
+	<div ng-app="playApp">
+		
+		<div ng-controller="MainCtrl">
+			
+			<div class="header">
+		    	<h1>Playlytics </h1>
+		    	<h6><a href="" ng-click="openReadme()">Read Me</a></h6>
+		        <p><div class="titles">Search:</div><input type="text" class="queries" id="query" value="" ng-keyup="onSearchForAutoComplete($event)" ng-model="searchQuery" placeholder="Type in a song name here"/></p>
+		    	<p><div class="titles">Name of Playlist:</div><input type="text" class="queries" id="title" value="{{title}}" ng-keyup="save()" ng-model="title" placeholder="Type in a playlist title here"/></p>
+		    	<p><div class="titles">Tags:</div><input type="text" id="tags" class="queries" value="{{tags}}" ng-model="tags" ng-keyup="save()" placeholder="Type in a tags here"/></p>
+		    </div>
+		    
+		    <div id="searchResults" class="container" ng-model="currentList" ng-cloak>
+		    	<p class="center-align">Songs</p>
+		    	<ul>
+				    <li ng-repeat="(key, value) in currentList">
+				    	<div id="{{key}}" class="draggable" ondragstart="dropController.startDrag(event)" draggable="true">
+				    		<a href="{{value.external_urls.spotify}}" target="_blank">{{value.name}}</a> , pop: {{value.popularity}}, dur: {{value.duration_ms/1000}} secs.
+				    	</div>
+				    </li>
+				</ul>
+		    </div>
+		   
+	    	<div id="playList" class="container" ondrop="dropController.acceptDrop(event)" ondragover="dropController.allowDrop(event)" ng-cloak>
+	    		<p>Coolness: <b> {{coolness}}</b> --  duration: <b>{{duration}} seconds</b></p>
+	    		<ul as-sortable="dragControlListeners"  ng-model="userList">
+			    	<li ng-repeat="(key, value) in userList"  as-sortable-item >
+				    	<div id="{{key}}"  as-sortable-item-handle >
+				    		<a href="{{value.external_urls.spotify}}" target="_blank">{{value.name}}</a> , pop: {{value.popularity}}, dur: {{value.duration_ms/1000}} secs. <a href="#" ng-click="removeFromPlayList(key)"><img src="resources/image/delete.png"/></a>
+				    	</div>
+			    	</li>
+			    </ul>
+	    	</div>
+		</div>
+	</div>
+
+	</body>
+
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+	<script src="js/angular/module/ng-sortable.min.js"></script>
+	<script src="js/angular/module/ngDialog.min.js"></script>
+	<script src="js/com/spotify.js"></script>
+	<script src="js/com/dropController.js"></script>
+	<script src="js/com/app.js"></script>
+
+	<script>
+		app.init();
+	</script>
+
+</html>
+
